@@ -1,0 +1,94 @@
+<section class="product-detail-page" *ngIf="product">
+  <div class="product-detail-grid">
+    <div class="product-detail-image-column">
+      <div class="product-detail-image-wrap">
+        <img
+          *ngIf="getSelectedImageUrl(); else noImage"
+          [src]="getSelectedImageUrl()!"
+          [alt]="product.title"
+          class="product-detail-image"
+        />
+
+        <ng-template #noImage>
+          <div class="product-detail-no-image">No Image</div>
+        </ng-template>
+      </div>
+
+      <div
+        class="product-detail-thumbnails"
+        *ngIf="product.product_images && product.product_images.length > 1"
+      >
+        <button
+          type="button"
+          class="thumbnail-button"
+          *ngFor="let image of product.product_images"
+          [class.active]="selectedImage?.id === image.id"
+          (click)="selectImage(image)"
+        >
+          <img
+            [src]="'http://localhost:3000' + image.image_url"
+            [alt]="image.alt_text || product.title"
+            class="thumbnail-image"
+          />
+        </button>
+      </div>
+    </div>
+
+    <div class="product-detail-info">
+      <p class="product-detail-eyebrow">{{ product.category }} · {{ product.product_type }}</p>
+      <h1>{{ product.title }}</h1>
+
+      <div class="product-buy-box">
+        <div class="product-buy-box-top">
+          <p class="product-detail-price">${{ product.price }}</p>
+
+          <span class="product-detail-stock-badge" *ngIf="product.quantity > 0">
+            In stock
+          </span>
+
+          <span class="product-detail-stock-badge out" *ngIf="product.quantity <= 0">
+            Out of stock
+          </span>
+        </div>
+
+        <button
+          class="product-detail-button"
+          [class.success]="addedToCart"
+          [disabled]="product.quantity <= 0 || hasReachedStockLimit()"
+          (click)="addToCart()"
+        >
+          <span *ngIf="product.quantity <= 0">Out of Stock</span>
+          <span *ngIf="product.quantity > 0 && hasReachedStockLimit()">Max in Cart</span>
+          <span *ngIf="product.quantity > 0 && !hasReachedStockLimit() && !addedToCart">Add to Cart</span>
+          <span *ngIf="product.quantity > 0 && !hasReachedStockLimit() && addedToCart">Added ✓</span>
+        </button>
+      </div>
+
+      <p class="product-detail-description" *ngIf="product.description">
+        {{ product.description }}
+      </p>
+
+      <div class="product-detail-section" *ngIf="product.sports_card_details">
+        <h3>Sports Details</h3>
+        <p><strong>Player:</strong> {{ product.sports_card_details.player_name }}</p>
+        <p><strong>Team:</strong> {{ product.sports_card_details.team }}</p>
+        <p><strong>League:</strong> {{ product.sports_card_details.league }}</p>
+        <p><strong>Rookie:</strong> {{ product.sports_card_details.rookie ? 'Yes' : 'No' }}</p>
+      </div>
+
+      <div class="product-detail-section" *ngIf="product.tcg_card_details">
+        <h3>TCG Details</h3>
+        <p><strong>Game:</strong> {{ product.tcg_card_details.game }}</p>
+        <p><strong>Rarity:</strong> {{ product.tcg_card_details.rarity }}</p>
+        <p><strong>Language:</strong> {{ product.tcg_card_details.language }}</p>
+      </div>
+
+      <div class="product-detail-section" *ngIf="product.sealed_product_details">
+        <h3>Sealed Details</h3>
+        <p><strong>Game:</strong> {{ product.sealed_product_details.game }}</p>
+        <p><strong>Format:</strong> {{ product.sealed_product_details.product_format }}</p>
+        <p><strong>Release Year:</strong> {{ product.sealed_product_details.release_year }}</p>
+      </div>
+    </div>
+  </div>
+</section>

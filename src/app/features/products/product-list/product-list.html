@@ -1,0 +1,37 @@
+<section class="shop-page">
+  <div class="shop-header">
+    <p class="shop-eyebrow">Shop</p>
+    <h1>Curated cards and sealed product.</h1>
+    <p class="shop-subtext">
+      Browse sports cards, TCG singles, and sealed inventory from Dirty Rips.
+    </p>
+  </div>
+
+  <div class="products-grid">
+    <a
+      class="product-card-link"
+      *ngFor="let product of products"
+      [routerLink]="['/shop', product.slug]"
+    >
+      <p-card styleClass="product-card">
+        <ng-template pTemplate="header">
+          <img
+            *ngIf="getPrimaryImage(product); else noImage"
+            [src]="getPrimaryImage(product)!"
+            [alt]="product.title"
+            class="product-image"
+          />
+
+          <ng-template #noImage>
+            <div class="no-image">No Image</div>
+          </ng-template>
+        </ng-template>
+
+        <div class="product-meta">
+          <div class="product-title">{{ product.title }}</div>
+          <div class="product-price">${{ product.price }}</div>
+        </div>
+      </p-card>
+    </a>
+  </div>
+</section>

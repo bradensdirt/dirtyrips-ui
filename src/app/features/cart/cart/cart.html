@@ -1,0 +1,75 @@
+<section class="cart-page">
+  <p class="cart-eyebrow">Cart</p>
+  <h1>Your cart</h1>
+
+  <div *ngIf="(cartItems$ | async) as items">
+    <div *ngIf="!items.length" class="empty">
+      Your cart is empty.
+    </div>
+
+    <div *ngIf="items.length" class="cart-layout">
+      <div class="cart-list">
+        <div class="cart-item" *ngFor="let item of items">
+          <img
+            *ngIf="item.imageUrl"
+            [src]="item.imageUrl"
+            class="cart-image"
+            [routerLink]="['/shop', item.slug]"
+          />
+
+          <div class="cart-info">
+            <a class="cart-title" [routerLink]="['/shop', item.slug]">
+              {{ item.title }}
+            </a>
+            <p class="cart-price">${{ item.price }}</p>
+
+            <div class="cart-actions">
+              <div class="cart-controls">
+                <button (click)="updateQuantity(item.productId, item.quantity - 1)">−</button>
+                <span class="cart-qty">{{ item.quantity }}</span>
+                <button (click)="updateQuantity(item.productId, item.quantity + 1)">+</button>
+              </div>
+
+              <button class="remove" (click)="remove(item.productId)">
+                Remove
+              </button>
+            </div>
+
+            <p class="cart-stock-note">Available: {{ item.stockQuantity }}</p>
+          </div>
+
+          <div class="cart-line-total">
+            ${{ (item.price * item.quantity).toFixed(2) }}
+          </div>
+        </div>
+      </div>
+
+      <aside class="cart-summary">
+        <div class="cart-summary-title">Order summary</div>
+
+        <div class="cart-summary-row">
+          <span>Items</span>
+          <span>{{ getItemCount() }}</span>
+        </div>
+
+        <div class="cart-summary-row">
+          <span>Subtotal</span>
+          <span>${{ getTotal().toFixed(2) }}</span>
+        </div>
+
+        <div class="cart-summary-total">
+          <span>Total</span>
+          <span>${{ getTotal().toFixed(2) }}</span>
+        </div>
+
+        <button
+          class="cart-checkout-button"
+          [routerLink]="['/checkout']"
+          *ngIf="items.length"
+        >
+          Continue to Checkout
+        </button>
+      </aside>
+    </div>
+  </div>
+</section>

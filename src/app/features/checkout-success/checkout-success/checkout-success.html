@@ -1,0 +1,22 @@
+<section class="checkout-success-page">
+  <div class="checkout-success-card">
+    <p class="checkout-success-eyebrow">Order placed</p>
+    <h1>Thank you for your order.</h1>
+
+    <p class="order-number">Confirmation: {{ orderNumber }}</p>
+
+    <p class="checkout-success-text">
+      Your mock checkout was completed successfully. In the real flow, this is
+      where payment confirmation and order details would appear.
+    </p>
+
+    <div *ngIf="order" class="success-summary">
+      <p>{{ order.count }} item(s) · ${{ order.total.toFixed(2) }}</p>
+    </div>
+
+    <div class="checkout-success-actions">
+      <a routerLink="/shop" class="checkout-success-button primary">Continue Shopping</a>
+      <a routerLink="/" class="checkout-success-button secondary">Back Home</a>
+    </div>
+  </div>
+</section>

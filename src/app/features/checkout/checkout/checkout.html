@@ -1,0 +1,172 @@
+<section class="checkout-page">
+  <p class="checkout-eyebrow">Checkout</p>
+  <h1>Complete your order</h1>
+
+  <div *ngIf="(cartItems$ | async) as items">
+    <div *ngIf="!items.length" class="empty">
+      Your cart is empty.
+    </div>
+
+    <div *ngIf="items.length" class="checkout-layout">
+      <form class="checkout-form-card" [formGroup]="checkoutForm" (ngSubmit)="submit()">
+        <h2>Customer information</h2>
+
+        <div class="checkout-field-grid">
+          <div class="checkout-field">
+            <label for="firstName">First name</label>
+            <input
+              id="firstName"
+              type="text"
+              placeholder="First name"
+              formControlName="firstName"
+              [class.invalid]="fieldInvalid('firstName')"
+            />
+          </div>
+
+          <div class="checkout-field">
+            <label for="lastName">Last name</label>
+            <input
+              id="lastName"
+              type="text"
+              placeholder="Last name"
+              formControlName="lastName"
+              [class.invalid]="fieldInvalid('lastName')"
+            />
+          </div>
+        </div>
+
+        <div class="checkout-field">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Email address"
+            formControlName="email"
+            [class.invalid]="fieldInvalid('email')"
+          />
+        </div>
+
+        <div class="checkout-field">
+          <label for="phone">Phone</label>
+          <input
+            id="phone"
+            type="text"
+            placeholder="Phone number"
+            formControlName="phone"
+            [class.invalid]="fieldInvalid('phone')"
+          />
+        </div>
+
+        <div class="checkout-field">
+          <label for="address">Address</label>
+          <input
+            id="address"
+            type="text"
+            placeholder="Street address"
+            formControlName="address"
+            [class.invalid]="fieldInvalid('address')"
+          />
+        </div>
+
+        <div class="checkout-field-grid">
+          <div class="checkout-field">
+            <label for="city">City</label>
+            <input
+              id="city"
+              type="text"
+              placeholder="City"
+              formControlName="city"
+              [class.invalid]="fieldInvalid('city')"
+            />
+          </div>
+
+          <div class="checkout-field">
+            <label for="state">State</label>
+            <input
+              id="state"
+              type="text"
+              placeholder="State"
+              formControlName="state"
+              [class.invalid]="fieldInvalid('state')"
+            />
+          </div>
+        </div>
+
+        <div class="checkout-field-grid">
+          <div class="checkout-field">
+            <label for="zip">ZIP</label>
+            <input
+              id="zip"
+              type="text"
+              placeholder="ZIP code"
+              formControlName="zip"
+              [class.invalid]="fieldInvalid('zip')"
+            />
+          </div>
+
+          <div class="checkout-field">
+            <label for="country">Country</label>
+            <input
+              id="country"
+              type="text"
+              placeholder="Country"
+              formControlName="country"
+              [class.invalid]="fieldInvalid('country')"
+            />
+          </div>
+        </div>
+
+        <button
+          class="checkout-submit-button"
+          type="submit"
+          [disabled]="checkoutForm.invalid"
+        >
+          Proceed to Payment
+        </button>
+      </form>
+
+      <aside class="checkout-summary-card">
+        <div class="checkout-summary-title">Order summary</div>
+
+        <div class="checkout-summary-items">
+          <div class="checkout-summary-item" *ngFor="let item of items">
+            <div class="checkout-summary-item-left"
+                 [routerLink]="['/shop', item.slug]"
+                 style="cursor: pointer;">
+              <img
+                *ngIf="item.imageUrl"
+                [src]="item.imageUrl"
+                class="checkout-item-image"
+                alt=""
+              />
+
+              <div class="checkout-summary-item-info">
+                <p class="checkout-item-title">{{ item.title }}</p>
+                <p class="checkout-item-meta">Qty: {{ item.quantity }}</p>
+              </div>
+            </div>
+
+            <div class="checkout-item-price">
+              ${{ (item.price * item.quantity).toFixed(2) }}
+            </div>
+          </div>
+        </div>
+
+        <div class="checkout-summary-row">
+          <span>Items</span>
+          <span>{{ getItemCount() }}</span>
+        </div>
+
+        <div class="checkout-summary-row">
+          <span>Subtotal</span>
+          <span>${{ getTotal().toFixed(2) }}</span>
+        </div>
+
+        <div class="checkout-summary-total">
+          <span>Total</span>
+          <span>${{ getTotal().toFixed(2) }}</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
