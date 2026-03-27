@@ -73,6 +73,11 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.checkout-field input[readonly] {
+  background: #f8fafc;
+  cursor: not-allowed;
+}
+
 .checkout-field input:focus {
   border-color: var(--primary);
 }
@@ -211,6 +216,18 @@
 
 .checkout-summary-item-left:hover .checkout-item-title {
   color: var(--primary);
+}
+
+.field-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+.field-error {
+  font-size: 0.8rem;
+  color: #dc2626;
+  margin-top: 0.35rem;
 }
 
 @media (max-width: 960px) {

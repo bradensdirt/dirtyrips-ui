@@ -19,6 +19,7 @@
               type="text"
               placeholder="First name"
               formControlName="firstName"
+              autocomplete="given-name"
               [class.invalid]="fieldInvalid('firstName')"
             />
           </div>
@@ -30,6 +31,7 @@
               type="text"
               placeholder="Last name"
               formControlName="lastName"
+              autocomplete="family-name"
               [class.invalid]="fieldInvalid('lastName')"
             />
           </div>
@@ -42,6 +44,7 @@
             type="email"
             placeholder="Email address"
             formControlName="email"
+            autocomplete="email"
             [class.invalid]="fieldInvalid('email')"
           />
         </div>
@@ -53,8 +56,17 @@
             type="text"
             placeholder="Phone number"
             formControlName="phone"
+            autocomplete="tel"
             [class.invalid]="fieldInvalid('phone')"
           />
+          <div class="field-error" *ngIf="fieldInvalid('phone')">
+            <span *ngIf="checkoutForm.get('phone')?.errors?.['required']">
+              Phone number is required.
+            </span>
+            <span *ngIf="checkoutForm.get('phone')?.errors?.['invalidUsPhone']">
+              Enter a valid US phone number (e.g. 555-123-4567).
+            </span>
+          </div>
         </div>
 
         <div class="checkout-field">
@@ -64,8 +76,12 @@
             type="text"
             placeholder="Street address"
             formControlName="address"
+            autocomplete="address-line1"
             [class.invalid]="fieldInvalid('address')"
           />
+          <p class="field-hint">
+            Start typing and choose your address from the suggestions.
+          </p>
         </div>
 
         <div class="checkout-field-grid">
@@ -76,6 +92,7 @@
               type="text"
               placeholder="City"
               formControlName="city"
+              autocomplete="address-level2"
               [class.invalid]="fieldInvalid('city')"
             />
           </div>
@@ -87,8 +104,17 @@
               type="text"
               placeholder="State"
               formControlName="state"
+              autocomplete="address-level1"
               [class.invalid]="fieldInvalid('state')"
             />
+            <div class="field-error" *ngIf="fieldInvalid('state')">
+              <span *ngIf="checkoutForm.get('state')?.errors?.['required']">
+                State is required.
+              </span>
+              <span *ngIf="checkoutForm.get('state')?.errors?.['invalidUsState']">
+                Enter a valid 2-letter US state code (e.g. CA, NY).
+              </span>
+            </div>
           </div>
         </div>
 
@@ -100,8 +126,17 @@
               type="text"
               placeholder="ZIP code"
               formControlName="zip"
+              autocomplete="postal-code"
               [class.invalid]="fieldInvalid('zip')"
             />
+            <div class="field-error" *ngIf="fieldInvalid('phone')">
+            <span *ngIf="checkoutForm.get('zip')?.errors?.['required']">
+              Zip Code is required.
+            </span>
+              <span *ngIf="checkoutForm.get('zip')?.errors?.['invalidUsZip']">
+              Enter a valid US Zip Code (e.g. 90210 or 12345-6789).
+            </span>
+            </div>
           </div>
 
           <div class="checkout-field">
@@ -109,8 +144,10 @@
             <input
               id="country"
               type="text"
-              placeholder="Country"
+              placeholder="US"
               formControlName="country"
+              autocomplete="country-name"
+              readonly
               [class.invalid]="fieldInvalid('country')"
             />
           </div>
